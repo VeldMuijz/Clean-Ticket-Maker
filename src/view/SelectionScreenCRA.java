@@ -1,5 +1,5 @@
 /*
- * IntroScreen.java
+ * SelectionScreenCRA.java
  *
  * Created on Jul 12, 2012, 11:27:01 AM
  */
@@ -9,6 +9,10 @@ import data.PartAndCause;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import main.MainApp;
 
 /**
@@ -21,6 +25,7 @@ import main.MainApp;
 public class SelectionScreenCRA extends javax.swing.JPanel {
 
 	PartAndCause pac = new PartAndCause();
+	String ticketString = "";
 
 	/** Creates new form Selection CRA */
 	@SuppressWarnings("OverridableMethodCallInConstructor")
@@ -34,6 +39,7 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 
 		//Set the selection to the CRA radiobutton by default
 		jRadioButtonCRA.setSelected(true);
+		ticketString = jRadioButtonCRA.getText() + ":";
 
 		//Clear the comboBoxes
 		jComboBoxPart.removeAllItems();
@@ -42,16 +48,59 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 		pac.arrayListFill();
 
 		fillComboBox();
-		
+
 		// Do this when something happens to the combobox
 		jComboBoxPart.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				conditionalfillComboBox();
+				scanner();
+				showTicketString();
 			}
 		});
 
+		scanner();
+		showTicketString();
+
+
+	}
+
+	public void scanner() {
+		String part = "";
+		String machine;
+		String speciality1 = "";
+		String speciality2 = "";
+		String speciality3 = "";
+
+		if (jCheckBoxCombiCall.isSelected() && jCheckBoxReturnCall.isSelected()) {
+			speciality3 = "CC:";
+		}
+		if (jCheckBoxProject.isSelected()) {
+			speciality2 = "PR:";
+		}
+		if (jCheckBoxReturnCall.isSelected()) {
+			speciality1 = "HH:";
+		}
+
+		if (getjComboBoxCause().getSelectedItem().toString().equals("Vastloper")) {
+			part = getjComboBoxCause().getSelectedItem().toString() + ": (MTC )";
+		} else {
+			part = getjComboBoxCause().getSelectedItem().toString();
+		}
+
+		if (jRadioButtonCRA.isSelected()) {
+			machine = "CRA:";
+		} else {
+			machine = "PC/E:";
+		}
+
+		ticketString = machine + speciality1 + speciality2 + speciality3 + getjComboBoxPart().getSelectedItem().toString() + ":" + part
+				+ ":" + jTextFieldFreeText.getText();
+	}
+
+	public void showTicketString() {
+		jTextFieldTicketString.setText(ticketString);
 	}
 
 	//Copy the Ticket String
@@ -117,10 +166,77 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 		}
 
 	}
-	
-	public void fillTicketString(){
-		String ticketString = "";
-		jTextFieldTicketString.setText(ticketString);
+
+	public JCheckBox getjCheckBoxCombiCall() {
+		return jCheckBoxCombiCall;
+	}
+
+	public void setjCheckBoxCombiCall(JCheckBox jCheckBoxCombiCall) {
+		this.jCheckBoxCombiCall = jCheckBoxCombiCall;
+	}
+
+	public JCheckBox getjCheckBoxProject() {
+		return jCheckBoxProject;
+	}
+
+	public void setjCheckBoxProject(JCheckBox jCheckBoxProject) {
+		this.jCheckBoxProject = jCheckBoxProject;
+	}
+
+	public JCheckBox getjCheckBoxReturnCall() {
+		return jCheckBoxReturnCall;
+	}
+
+	public void setjCheckBoxReturnCall(JCheckBox jCheckBoxReturnCall) {
+		this.jCheckBoxReturnCall = jCheckBoxReturnCall;
+	}
+
+	public JComboBox getjComboBoxCause() {
+		return jComboBoxCause;
+	}
+
+	public void setjComboBoxCause(JComboBox jComboBoxCause) {
+		this.jComboBoxCause = jComboBoxCause;
+	}
+
+	public JComboBox getjComboBoxPart() {
+		return jComboBoxPart;
+	}
+
+	public void setjComboBoxPart(JComboBox jComboBoxPart) {
+		this.jComboBoxPart = jComboBoxPart;
+	}
+
+	public JRadioButton getjRadioButtonCRA() {
+		return jRadioButtonCRA;
+	}
+
+	public void setjRadioButtonCRA(JRadioButton jRadioButtonCRA) {
+		this.jRadioButtonCRA = jRadioButtonCRA;
+	}
+
+	public JRadioButton getjRadioButtonPCE() {
+		return jRadioButtonPCE;
+	}
+
+	public void setjRadioButtonPCE(JRadioButton jRadioButtonPCE) {
+		this.jRadioButtonPCE = jRadioButtonPCE;
+	}
+
+	public JTextField getjTextFieldFreeText() {
+		return jTextFieldFreeText;
+	}
+
+	public void setjTextFieldFreeText(JTextField jTextFieldFreeText) {
+		this.jTextFieldFreeText = jTextFieldFreeText;
+	}
+
+	public JTextField getjTextFieldTicketString() {
+		return jTextFieldTicketString;
+	}
+
+	public void setjTextFieldTicketString(JTextField jTextFieldTicketString) {
+		this.jTextFieldTicketString = jTextFieldTicketString;
 	}
 
 	/** This method is called from within the constructor to
@@ -167,6 +283,11 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
         });
 
         jCheckBoxReturnCall.setText("Herhaal Call");
+        jCheckBoxReturnCall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxReturnCallActionPerformed(evt);
+            }
+        });
 
         jButtonReturn.setText("Terug");
         jButtonReturn.setMaximumSize(new java.awt.Dimension(100, 30));
@@ -196,13 +317,29 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 
         jTextFieldTicketString.setEditable(false);
 
+        jTextFieldFreeText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldFreeTextKeyReleased(evt);
+            }
+        });
+
         jLabelSpecial.setText("Specialiteit");
 
         jLabelMachine.setText("Machine");
 
         jRadioButtonCRA.setText("CRA");
+        jRadioButtonCRA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonCRAActionPerformed(evt);
+            }
+        });
 
         jRadioButtonPCE.setText("PC/E");
+        jRadioButtonPCE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonPCEActionPerformed(evt);
+            }
+        });
 
         jComboBoxCause.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -291,11 +428,13 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void jCheckBoxCombiCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCombiCallActionPerformed
-		//
+				scanner();
+		showTicketString();
 	}//GEN-LAST:event_jCheckBoxCombiCallActionPerformed
 
 	private void jCheckBoxProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProjectActionPerformed
-		// TODO add your handling code here:
+		scanner();
+		showTicketString();
 	}//GEN-LAST:event_jCheckBoxProjectActionPerformed
 
 	private void jButtonReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReturnActionPerformed
@@ -305,8 +444,35 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 
 	private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
 		fillComboBox();
+		jComboBoxPart.setSelectedIndex(0);
+		jRadioButtonCRA.setSelected(true);
+		scanner();
+		showTicketString();
 
 	}//GEN-LAST:event_jButtonResetActionPerformed
+
+	private void jCheckBoxReturnCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxReturnCallActionPerformed
+		
+		scanner();
+		showTicketString();
+	}//GEN-LAST:event_jCheckBoxReturnCallActionPerformed
+
+	private void jRadioButtonPCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPCEActionPerformed
+		scanner();
+		showTicketString();
+
+	}//GEN-LAST:event_jRadioButtonPCEActionPerformed
+
+	private void jRadioButtonCRAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCRAActionPerformed
+				scanner();
+		showTicketString();
+	}//GEN-LAST:event_jRadioButtonCRAActionPerformed
+
+	private void jTextFieldFreeTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFreeTextKeyReleased
+	scanner();
+		showTicketString();			// TODO add your handling code here:
+	}//GEN-LAST:event_jTextFieldFreeTextKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonReturn;
