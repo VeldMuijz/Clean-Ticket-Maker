@@ -6,6 +6,8 @@
 package view;
 
 import data.PartAndCause;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import main.MainApp;
 
@@ -40,7 +42,15 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 		pac.arrayListFill();
 
 		fillComboBox();
+		
+		// Do this when something happens to the combobox
+		jComboBoxPart.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				conditionalfillComboBox();
+			}
+		});
 
 	}
 
@@ -52,6 +62,7 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 		// fill the ComboBox with the parts
 		for (int i = 0; i < pac.part.size(); i++) {
 			jComboBoxPart.addItem(pac.part.get(i));
+
 		}
 		for (int i = 0; i < pac.causeCash.size(); i++) {
 			jComboBoxCause.addItem(pac.causeCash.get(i));
@@ -60,19 +71,57 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 	}
 
 	public void conditionalfillComboBox() {
-		//Make a conditional filled combobox.
+		//Make a conditional filled combobox to fill the right causes.
 		String chosenPart = jComboBoxPart.getSelectedItem().toString();
-		
+
 		if (chosenPart.equals("CASH")) {
-			System.out.println(chosenPart+" is selected");
-		}else if(chosenPart.equals("COIN")) {
-			System.out.println(chosenPart+" is selected");
+			jComboBoxCause.removeAllItems();
+
+			for (int i = 0; i < pac.causeCash.size(); i++) {
+				jComboBoxCause.addItem(pac.causeCash.get(i));
+			}
+
+		} else if (chosenPart.equals("COIN")) {
+			jComboBoxCause.removeAllItems();
+
+			for (int i = 0; i < pac.causeCoin.size(); i++) {
+				jComboBoxCause.addItem(pac.causeCoin.get(i));
+			}
+
+		} else if (chosenPart.equals("CONNECTION")) {
+			jComboBoxCause.removeAllItems();
+
+			for (int i = 0; i < pac.causeConnection.size(); i++) {
+				jComboBoxCause.addItem(pac.causeConnection.get(i));
+			}
+
+		} else if (chosenPart.equals("FINANCE")) {
+			jComboBoxCause.removeAllItems();
+
+			for (int i = 0; i < pac.causeFinance.size(); i++) {
+				jComboBoxCause.addItem(pac.causeFinance.get(i));
+			}
+
+		} else if (chosenPart.equals("G4S")) {
+			jComboBoxCause.removeAllItems();
+
+			for (int i = 0; i < pac.causeG4S.size(); i++) {
+				jComboBoxCause.addItem(pac.causeG4S.get(i));
+			}
+		} else if (chosenPart.equals("RPNT")) {
+			jComboBoxCause.removeAllItems();
+
+			for (int i = 0; i < pac.causeRpnt.size(); i++) {
+				jComboBoxCause.addItem(pac.causeRpnt.get(i));
+			}
 		}
-			
-		
+
 	}
 	
-	
+	public void fillTicketString(){
+		String ticketString = "";
+		jTextFieldTicketString.setText(ticketString);
+	}
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -158,16 +207,6 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
         jComboBoxCause.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jComboBoxPart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxPart.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBoxPartMouseClicked(evt);
-            }
-        });
-        jComboBoxPart.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jComboBoxPartFocusGained(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -252,7 +291,7 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void jCheckBoxCombiCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCombiCallActionPerformed
-		// TODO add your handling code here:
+		//
 	}//GEN-LAST:event_jCheckBoxCombiCallActionPerformed
 
 	private void jCheckBoxProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProjectActionPerformed
@@ -268,16 +307,6 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 		fillComboBox();
 
 	}//GEN-LAST:event_jButtonResetActionPerformed
-
-	private void jComboBoxPartFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxPartFocusGained
-		
-		conditionalfillComboBox();
-	}//GEN-LAST:event_jComboBoxPartFocusGained
-
-	private void jComboBoxPartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxPartMouseClicked
-			conditionalfillComboBox();
-	}//GEN-LAST:event_jComboBoxPartMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonReturn;
