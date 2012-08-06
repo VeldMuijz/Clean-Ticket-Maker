@@ -26,6 +26,8 @@ public class Main {
 				MainApp.getInstance().startup();
 			}
 		});
+		
+		
 
 
 		System.out.println("The application is started.");

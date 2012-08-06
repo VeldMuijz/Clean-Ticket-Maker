@@ -5,14 +5,16 @@
  */
 package view;
 
+import data.Clipboard;
+import data.Mail;
 import data.PartAndCause;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import main.MainApp;
 
 /**
@@ -99,6 +101,11 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 
 		ticketString = machine + speciality1 + speciality2 + speciality3 + getjComboBoxPart().getSelectedItem().toString() + ":" + part
 				+ ":" + jTextFieldFreeText.getText();
+		
+		//Copy the content of ticketString to the clipboard so you don't
+		//have to copy it yourself
+		Clipboard clpbrd = new Clipboard();
+		clpbrd.copyToClipboard(ticketString);
 	}
 
 	/**
@@ -220,6 +227,7 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
         jRadioButtonPCE = new javax.swing.JRadioButton();
         jComboBoxCause = new javax.swing.JComboBox();
         jComboBoxPart = new javax.swing.JComboBox();
+        jButtonMail = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(254, 254, 254));
 
@@ -300,6 +308,13 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 
         jComboBoxPart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButtonMail.setText("Mail");
+        jButtonMail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -311,7 +326,9 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonReturn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 639, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 452, Short.MAX_VALUE)
+                                .addComponent(jButtonMail)
+                                .addGap(147, 147, 147)
                                 .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelFreeText)
@@ -350,7 +367,8 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReturn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonMail))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMachine)
@@ -383,11 +401,13 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void jCheckBoxCombiCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCombiCallActionPerformed
+		//scan and show selected items
 		scanner();
 		showTicketString();
 	}//GEN-LAST:event_jCheckBoxCombiCallActionPerformed
 
 	private void jCheckBoxProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProjectActionPerformed
+		//scan and show selected items
 		scanner();
 		showTicketString();
 	}//GEN-LAST:event_jCheckBoxProjectActionPerformed
@@ -398,6 +418,7 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 	}//GEN-LAST:event_jButtonReturnActionPerformed
 
 	private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
+		//Reset all the options to the default
 		fillComboBox();
 		jComboBoxPart.setSelectedIndex(0);
 		jRadioButtonCRA.setSelected(true);
@@ -411,27 +432,43 @@ public class SelectionScreenCRA extends javax.swing.JPanel {
 	}//GEN-LAST:event_jButtonResetActionPerformed
 
 	private void jCheckBoxReturnCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxReturnCallActionPerformed
-
+		//scan and show selected items
 		scanner();
 		showTicketString();
 	}//GEN-LAST:event_jCheckBoxReturnCallActionPerformed
 
 	private void jRadioButtonPCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPCEActionPerformed
+		//scan and show selected items
 		scanner();
 		showTicketString();
 
 	}//GEN-LAST:event_jRadioButtonPCEActionPerformed
 
 	private void jRadioButtonCRAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCRAActionPerformed
+		//scan and show selected items
 		scanner();
 		showTicketString();
 	}//GEN-LAST:event_jRadioButtonCRAActionPerformed
 
 	private void jTextFieldFreeTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFreeTextKeyReleased
+		//scan and show selected items
 		scanner();
-		showTicketString();			// TODO add your handling code here:
+		showTicketString();			
 	}//GEN-LAST:event_jTextFieldFreeTextKeyReleased
+
+	private void jButtonMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMailActionPerformed
+	//Mail authProg = new Mail();
+	Mail mail = new Mail();
+		try {
+			mail.sendMail();
+		} catch (Exception ex) {
+			Logger.getLogger(SelectionScreenCRA.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	
+	}//GEN-LAST:event_jButtonMailActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonMail;
     private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonReturn;
     private javax.swing.JCheckBox jCheckBoxCombiCall;
