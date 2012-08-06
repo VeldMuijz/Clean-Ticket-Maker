@@ -47,8 +47,8 @@ public class Mail
 {
 
   private static final String SMTP_HOST_NAME = "smtp.gmail.com";
-  private static final String SMTP_AUTH_USER = "veldmuijz";
-  private static final String SMTP_AUTH_PWD  = "1qXrfGGL#";
+  private static final String SMTP_AUTH_USER = "";
+  private static final String SMTP_AUTH_PWD  = "";
 
   private static final String emailMsgTxt      = "L.S.,\n"
 		  + "Betreft: CRA009501\n"
